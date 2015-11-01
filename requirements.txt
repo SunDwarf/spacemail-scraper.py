@@ -1,0 +1,8 @@
+sqlalchemy
+requests
+bs4
+dateutil
+# for graphs
+pandas
+matplotlib
+numpy

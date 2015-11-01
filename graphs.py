@@ -2,7 +2,6 @@ import os
 import numpy as np
 import spacemail
 import pandas as pd
-from pandas import Series
 
 # Fix sizes
 from matplotlib import rcParams
