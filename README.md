@@ -1,6 +1,6 @@
 ### Spacemail Scraper
 
-This is a scraper for [Space Email](https://space.galaxybuster.net).  
+This is a scraper for [Space Email](http://space.galaxybuster.net).  
 
 See https://naval.tf/misc/spacemail-data-mining.html
 
