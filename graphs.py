@@ -34,8 +34,10 @@ def plot_dates_all():
 
 def plot_dates_no_spikes():
     print("Plotting year/month posts with no spikes...")
-    df = pd.read_sql("SELECT date FROM post WHERE date(date) NOT BETWEEN date('2014-06-01') AND date('2014-08-01');",
-                     spacemail.engine)
+    df = pd.read_sql(
+        "SELECT date FROM post WHERE date(date) NOT BETWEEN date('2014-06-01') AND date("
+        "'2014-08-01');",
+        spacemail.engine)
 
     # Set date type
     df.date = df.date.astype("datetime64")
@@ -54,10 +56,37 @@ def plot_dates_no_spikes():
     fig.savefig("plots/dates_all_nospikes.png")
 
 
+def plot_dates_jun_2014():
+    print("Plotting dates for June 2014...")
+    df = pd.read_sql(
+        "SELECT date FROM post WHERE date(date) BETWEEN date('2014-06-01') AND date('2014-06-31');",
+        spacemail.engine)
+
+    # Set date type
+    df.date = df.date.astype("datetime64")
+
+    # Group and plot
+    pl = df.groupby(df.date.dt.day) \
+        .count() \
+        .plot(kind="bar", title="Posts in June 2014 by Day")
+
+    # Set labels
+    pl.set_xlabel("Day of Month")
+    pl.set_ylabel("Frequency")
+
+    # Save
+    fig = pl.get_figure()
+    fig.savefig("plots/dates_jun_2014.png")
+
+    plt.clf()
+    plt.cla()
+
+
 def plot_dates_jul_2014():
     print("Plotting dates for July 2014...")
-    df = pd.read_sql("SELECT date FROM post WHERE date(date) BETWEEN date('2014-07-01') AND date('2014-07-31');",
-                     spacemail.engine)
+    df = pd.read_sql(
+        "SELECT date FROM post WHERE date(date) BETWEEN date('2014-07-01') AND date('2014-07-31');",
+        spacemail.engine)
 
     # Set date type
     df.date = df.date.astype("datetime64")
@@ -66,7 +95,6 @@ def plot_dates_jul_2014():
     pl = df.groupby(df.date.dt.day) \
         .count() \
         .plot(kind="bar", title="Posts in July 2014 by Day")
-
 
     # Set labels
     pl.set_xlabel("Day of Month")
@@ -105,7 +133,6 @@ def plot_sad_grouped_graphs():
              .filter((spacemail.Post.body.ilike("%alone%"))
                      | (spacemail.Post.subject.ilike("%alone%"))).count()}
 
-
     # Use matplotlib directly this time
     X = np.arange(len(d.keys()))
 
@@ -132,19 +159,19 @@ def plot_sad_grouped_graphs():
     plt.clf()
     plt.cla()
 
+
 def plot_dumbass():
     print("Plotting dumbass words/frequency...")
 
     d = {"skype": spacemail.session.query(spacemail.Post)
-         .filter((spacemail.Post.body.ilike("%skype%"))
+        .filter((spacemail.Post.body.ilike("%skype%"))
                 | (spacemail.Post.subject.ilike("%skype%"))).count(),
          "kik": spacemail.session.query(spacemail.Post)
-         .filter((spacemail.Post.body.ilike("% kik %"))
-                | (spacemail.Post.subject.ilike("% kik %"))).count(),
+             .filter((spacemail.Post.body.ilike("% kik %"))
+                     | (spacemail.Post.subject.ilike("% kik %"))).count(),
          "tumblr": spacemail.session.query(spacemail.Post)
-         .filter((spacemail.Post.body.ilike("%tumblr%"))
-                | (spacemail.Post.subject.ilike("%tumblr%"))).count()}
-
+             .filter((spacemail.Post.body.ilike("%tumblr%"))
+                     | (spacemail.Post.subject.ilike("%tumblr%"))).count()}
 
     # Use matplotlib directly this time
     X = np.arange(len(d.keys()))
@@ -180,6 +207,7 @@ if __name__ == '__main__':
 
     plot_dates_all()
     plot_dates_no_spikes()
+    plot_dates_jun_2014()
     plot_dates_jul_2014()
     plot_sad_grouped_graphs()
     plot_dumbass()
