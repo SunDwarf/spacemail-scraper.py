@@ -63,6 +63,7 @@ def main(thread_id: int, debug: bool = True):
                 except:
                     debug and print("Thread-{}] -".format(thread_id), "ID: {} -".format(mid),
                                     "Error fetching new post body.")
+                    continue
 
                 try:
                     data = msg.json()[0]
@@ -89,6 +90,7 @@ def main(thread_id: int, debug: bool = True):
                     session.add(p)
                 except:
                     print("[Thread-{}] -".format(thread_id), "Bad HTML body returned.")
+                    continue
             else:
                 debug and print("[Thread-{}] - Already seen before.".format(thread_id))
 
